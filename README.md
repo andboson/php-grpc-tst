@@ -1,6 +1,10 @@
 gRPC in 3 minutes (PHP)
 ===========================
 
+for rest:
+protoc-gen-php -i . -i /work/www/bunny_api/go-grpc-test/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/ -o . helloworld.proto
+
+
 PREREQUISITES
 -------------
 
