@@ -35,37 +35,22 @@
 require dirname(__FILE__).'/vendor/autoload.php';
 require dirname(__FILE__).'/helloworld.php';
 
-function greet(Grpc\BidiStreamingCall &$bc, $name, $wt = 0)
+function greet($name, $wt)
 {
+    $client = new helloworld\GreeterClient('localhost:50051', [
+        'credentials' => Grpc\ChannelCredentials::createInsecure(),
+    ]);
     $request = new helloworld\HelloRequest1();
     $request->setName($name);
     $request->setWaitMinutes($wt);
-    $bc->write($request);
-
-    return $bc;
+    list($reply, $status) = $client->SayHello($request);
+    $message = $reply->getMessage();
+    //print_r( $status);
+    echo "\n" . $message;
 }
-
-function read(Grpc\BidiStreamingCall &$bc){
-    $reply = $bc->read();
-        echo "\n--\n";
-        echo $reply->getMessage();
-}
-
-////////////////////////////////////////////////
-
-$client = new helloworld\GreeterClient('localhost:50051', [
-    'credentials' => Grpc\ChannelCredentials::createInsecure(),
-]);
-/** @var Grpc\BidiStreamingCall $bc */
-$bc  = $client->SayHello();
 
 $start = microtime(1);
-greet($bc, "joe", 2);
-greet($bc, "mak", 2);
-$bc->writesDone();
-read($bc);
-read($bc);
+greet('joe', 2);
+greet('nick', 2);
 
-$elapsed = microtime(1) - $start;
-echo "\n total: " . $elapsed;
-
+echo "\n total: " . (microtime(1) - $start);

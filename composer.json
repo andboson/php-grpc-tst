@@ -3,6 +3,8 @@
   "description": "gRPC example for PHP",
   "minimum-stability": "dev",
   "require": {
-    "grpc/grpc": "v1.0.x"
+    "grpc/grpc": "v1.0.x",
+    "react/event-loop":"v0.4.x",
+    "avalonia/async": "dev-master"
   }
 }
